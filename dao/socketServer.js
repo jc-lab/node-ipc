@@ -5,12 +5,8 @@ const net = require('net'),
     fs = require('fs'),
     dgram = require('dgram'),
     EventParser = require('../entities/EventParser.js'),
-    Message = require('js-message');
-
-let Events = require('event-pubsub/es5');
-if(process.version[1]>4){
+    Message = require('js-message'),
     Events = require('event-pubsub');
-}
 
 let eventParser = new EventParser();
 
@@ -165,18 +161,18 @@ function gotData(socket,data,UDPSocket){
         return;
     }
 
-    if(!this.ipcBuffer){
-        this.ipcBuffer='';
+    if(!sock.ipcBuffer){
+        sock.ipcBuffer='';
     }
 
-    data=(this.ipcBuffer+=data);
+    data=(sock.ipcBuffer+=data);
 
     if(data.slice(-1)!=eventParser.delimiter || data.indexOf(eventParser.delimiter) == -1){
         this.log('Messages are large, You may want to consider smaller messages.');
         return;
     }
 
-    this.ipcBuffer='';
+    sock.ipcBuffer='';
 
     data=eventParser.parse(data);
 
