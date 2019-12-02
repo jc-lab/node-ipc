@@ -10,8 +10,8 @@ describe('TCP Socket verification of client',
         var windows_delay = 0;
 
         if(os === "win32") {
-            windows_delay = 4000;
-            jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+            windows_delay = 10000;
+            jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
         }
 
         it(
@@ -34,6 +34,7 @@ describe('TCP Socket verification of client',
                             'error',
                             function gotError(err){
                                 errorCount++;
+                                
                                 expect(ipc.of.tcpFakeServer.retriesRemaining).toBe(
                                     ipc.config.maxRetries-errorCount
                                 );
@@ -50,7 +51,7 @@ describe('TCP Socket verification of client',
                         done();
                     },
                     ipc.config.retry*ipc.config.maxRetries +
-                    ipc.config.retry+ipc.config.retry + windows_delay
+                    ipc.config.retry*2 + windows_delay
                 );
 
             }

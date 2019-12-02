@@ -36,7 +36,7 @@ describe(
                          ipc.server.stop();
                          done();
                      },
-                     ipc.config.retry+ipc.config.retry
+                     ipc.config.retry*2
                 );
 
                 ipc.server.start();

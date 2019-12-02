@@ -10,15 +10,15 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "event-pubsub": "4.3.0",
-    "js-message": "1.0.5",
-    "js-queue": "2.0.0"
+    "event-pubsub": "*",
+    "js-message": "*",
+    "js-queue": "*"
   },
   "devDependencies": {
-    "codacy-coverage": "2.0.0",
-    "jasmine": "2.4.1",
-    "istanbul": "0.4.1",
-    "node-cmd": "2.0.0"
+    "codacy-coverage": "*",
+    "jasmine": "*",
+    "istanbul": "*",
+    "node-cmd": "*"
   },
   "scripts": {
     "test-windows": "istanbul cover -x **/spec/** -dir ./spec/coverage ./node_modules/jasmine/bin/jasmine.js",
@@ -52,7 +52,7 @@
     "memory"
   ],
   "author": "Brandon Nozaki Miller",
-  "license": "DBAD",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/RIAEvangelist/node-ipc.git"

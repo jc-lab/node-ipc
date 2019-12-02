@@ -2,12 +2,20 @@
 'use strict';
 
 const ipc = require('../../../../node-ipc');
+const os = require('os').platform();
 
 ipc.config.id ='testClient';
 ipc.config.retry = 900;
 
 describe('Test Cases for Unix client: ',
     function UnixClientSpec(){
+        var windows_delay = 0;
+
+        if(os === "win32") {
+            windows_delay = 10000;
+            jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+        }
+
         it(
             'Verify retry attempts by Unix client to connect to the Unix server as per the value set in "maxRetries" parameter.',
             function testIt(done){
@@ -41,7 +49,7 @@ describe('Test Cases for Unix client: ',
                         done();
                     },
                     ipc.config.retry*ipc.config.maxRetries +
-                    ipc.config.retry+ipc.config.retry
+                    ipc.config.retry*2 +windows_delay
                 );
             }
         );
@@ -89,11 +97,14 @@ describe('Test Cases for Unix client: ',
         it(
             'Verify unix client connects to "unixServer" and receives message.',
             function testIt(done){
+                ipc.config.maxRetries = Infinity;
+                ipc.config.stopRetrying = false;
+                
                 ipc.connectTo(
                     'unixServer',
                     '/tmp/app.unixServer',
                      function open(){
-                         ipc.of.unixServer.on(
+                        ipc.of.unixServer.on(
                             'connect',
                             function connected(){
                                 ipc.of.unixServer.on(
@@ -104,7 +115,7 @@ describe('Test Cases for Unix client: ',
                                         testDone();
                                     }
                                 );
-
+        
                                 ipc.of.unixServer.on(
                                     'error',
                                     function gotErr(err){
@@ -112,7 +123,7 @@ describe('Test Cases for Unix client: ',
                                         testDone();
                                     }
                                 );
-
+        
                                 ipc.of.unixServer.emit(
                                     'message',
                                     {
