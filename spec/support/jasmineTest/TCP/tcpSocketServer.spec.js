@@ -2,9 +2,17 @@
 'use strict';
 
 const ipc = require('../../../../node-ipc');
+const os = require('os').platform();
 
 describe('TCP Socket verification of server',
     function TCPSocketSpec(){
+        var windows_delay = 0;
+
+        if(os === "win32") {
+            windows_delay = 10000;
+            jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+        }
+
         it(
             'Verify TCP server detects only 1 client out of 2 clients and receives message.',
             function testIt(done){
@@ -32,7 +40,7 @@ describe('TCP Socket verification of server',
                          ipc.server.stop();
                          done();
                      },
-                     ipc.config.retry+ipc.config.retry
+                     ipc.config.retry*2
                 );
 
                 ipc.server.start();

@@ -2,7 +2,7 @@
 
 const ipc=require('../../../node-ipc');
 const process=require('process');
-const dieAfter=30000;
+const dieAfter=300000;
 const messageDelay=900;
 
 //die after 60 seconds

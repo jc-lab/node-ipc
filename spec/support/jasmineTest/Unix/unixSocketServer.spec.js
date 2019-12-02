@@ -2,10 +2,18 @@
 'use strict';
 
 const ipc = require('../../../../node-ipc');
+const os = require('os').platform();
 
 describe(
     'Test Cases for server: ',
     function testDescribe(){
+        var windows_delay = 0;
+
+        if(os === "win32") {
+            windows_delay = 10000;
+            jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+        }
+
         // Unix server verification //
         it(
             'Verify unix server detects only 1 client out of 2 clients and receives message.',
