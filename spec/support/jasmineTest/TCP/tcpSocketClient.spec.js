@@ -9,10 +9,10 @@ describe('TCP Socket verification of client',
 
         var windows_delay = 0;
 
-        if(os === "win32") {
+        //if(os === "win32") {
             windows_delay = 10000;
             jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-        }
+        //}
 
         it(
             'Verify retry attempts by TCP client to connect to the server as per the value set in "maxRetries" parameter.',

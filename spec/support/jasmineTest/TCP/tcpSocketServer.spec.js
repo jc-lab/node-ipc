@@ -8,10 +8,10 @@ describe('TCP Socket verification of server',
     function TCPSocketSpec(){
         var windows_delay = 0;
 
-        if(os === "win32") {
+        //if(os === "win32") {
             windows_delay = 10000;
             jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
-        }
+        //}
 
         it(
             'Verify TCP server detects only 1 client out of 2 clients and receives message.',
