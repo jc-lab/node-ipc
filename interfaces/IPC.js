@@ -1,12 +1,12 @@
 'use strict';
 
 const Defaults = require('../entities/Defaults.js'),
-    require("../members/serve.js"),
-    require("../members/connectTo.js.js"),
-    require("../members/connectToNet.js.js"),
-    require("../members/.js.js"),
-    require("../members/.js.js"),
-    require("../members/.js.js");
+    connectTo = require("../members/connectTo.js"),
+    connectToNet = require("../members/connectToNet.js"),
+    disconnect = require("../members/disconnect.js"),
+    serve = require("../members/serve.js"),
+    serveNet = require("../members/serveNet.js"),
+    log = require("../members/log.js");
 
 class IPC{
     of={};
