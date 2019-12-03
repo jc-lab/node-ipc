@@ -1,21 +1,9 @@
 'use strict';
 
-const IPC = require('./services/IPC.js');
+const IPC = require('./interfaces/IPC.js');
 
 class IPCModule extends IPC{
-    constructor(){
-        super();
-        //include IPC to make extensible
-        Object.defineProperty(
-            this,
-            'IPC',
-            {
-                enumerable:true,
-                writable:false,
-                value:IPC
-            }
-        )
-    }
+    IPC = IPC;
 }
 
 module.exports=new IPCModule;
