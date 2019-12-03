@@ -22,5 +22,6 @@ class IPC{
     serveNet=serveNet;
     
     log = log;
-    
 }
+
+module.exports = IPC;
