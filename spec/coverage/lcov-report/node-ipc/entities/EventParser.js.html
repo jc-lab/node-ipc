@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">35.71% </span>
+        <span class="strong">85.71% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>5/14</span>
+        <span class='fraction'>12/14</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">11.11% </span>
+        <span class="strong">55.56% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/9</span>
+        <span class='fraction'>5/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">33.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/3</span>
+        <span class='fraction'>3/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">35.71% </span>
+        <span class="strong">85.71% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>5/14</span>
+        <span class='fraction'>12/14</span>
       </div>
     </div>
   </div>
-  <div class='status-line low'></div>
+  <div class='status-line high'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -81,28 +81,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">6×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">13×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -113,28 +113,28 @@ const Defaults = require('./Defaults.js');
 &nbsp;
 class Parser{
   constructor(config){
-    <span class="missing-if-branch" title="else path not taken" >E</span>if(!config){
+    if(!config){
       config=new Defaults;
     }
     this.delimiter=config.delimiter;
   }
 &nbsp;
-  format<span class="fstat-no" title="function not covered" >(message){</span>
-<span class="cstat-no" title="statement not covered" >    if(!message.data &amp;&amp; message.data!==false &amp;&amp; message.data!==0){</span>
+  format(message){
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(!message.data &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >message.data!==false </span>&amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >message.data!==0)</span>{
 <span class="cstat-no" title="statement not covered" >        message.data={};</span>
     }
-<span class="cstat-no" title="statement not covered" >    if(message.data['_maxListeners']){</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if(message.data['_maxListeners']){
 <span class="cstat-no" title="statement not covered" >        message.data={};</span>
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    message=message.JSON+this.delimiter;</span>
-<span class="cstat-no" title="statement not covered" >    return message;</span>
+    message=message.JSON+this.delimiter;
+    return message;
   }
 &nbsp;
-  parse<span class="fstat-no" title="function not covered" >(data){</span>
-<span class="cstat-no" title="statement not covered" >    let events=data.split(this.delimiter);</span>
-<span class="cstat-no" title="statement not covered" >    events.pop();</span>
-<span class="cstat-no" title="statement not covered" >    return events;</span>
+  parse(data){
+    let events=data.split(this.delimiter);
+    events.pop();
+    return events;
   }
 }
 &nbsp;
@@ -145,7 +145,7 @@ module.exports=Parser;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 04 2019 13:18:58 GMT-0800 (Pacific Standard Time)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Dec 04 2019 22:51:58 GMT-0800 (Pacific Standard Time)
 </div>
 </div>
 <script src="../../prettify.js"></script>

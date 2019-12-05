@@ -16,8 +16,8 @@
   },
   "devDependencies": {
     "codacy-coverage": "*",
-    "jasmine": "*",
-    "istanbul": "*",
+    "jasmine": "3.5.0",
+    "istanbul": "0.4.5",
     "node-cmd": "*"
   },
   "scripts": {
