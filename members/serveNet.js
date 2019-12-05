@@ -63,7 +63,7 @@ function serveNet(host,port,UDPType,callback){
     this.server=new Server(
         host,
         this.config,
-        log,
+        this.log,
         port
     );
 

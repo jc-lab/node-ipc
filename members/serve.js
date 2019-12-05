@@ -23,7 +23,7 @@ function serve(path,callback){
     this.server=new Server(
         path,
         this.config,
-        log
+        this.log
     );
 
     this.server.on(

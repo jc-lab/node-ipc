@@ -53,4 +53,4 @@ function connectTo(id,path,callback){
     callback(this);
 }
 
-modules.exports = connect;
+module.exports = connectTo;
