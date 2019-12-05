@@ -1,6 +1,6 @@
 'use strict';
 
-const Server = require('../dao/socketServer.js');
+const Server = require('../../../dao/socketServer.js');
 
 function serve(path,callback){
     if(typeof path=='function'){

@@ -1,7 +1,7 @@
 'use strict';
 
-const Client = require('../dao/client.js'),
-    Server = require('../dao/socketServer.js');
+const Client = require('../../../dao/client.js'),
+    Server = require('../../../dao/socketServer.js');
 
 function emptyCallback(){};
 
@@ -72,7 +72,11 @@ function connectToNet(id,host,port,callback){
     this.of[id].path = host;
     this.of[id].port = port;
 
+    console.log(this.of[id]);
+
     this.of[id].connect();
+
+
 
     callback(this);
 }

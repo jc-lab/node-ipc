@@ -11,25 +11,23 @@ const net = require('net'),
 let eventParser = new EventParser();
 
 class Server extends Events{
+    udp4      = false;
+    udp6      = false;
+    server    = false;
+    sockets   = [];
+    emit      = emit;
+    broadcast = broadcast;
+    
     constructor(path,config,log,port){
         super();
-        Object.assign(
-            this,
-            {
-                config          : config,
-                path            : path,
-                port            : port,
-                udp4            : false,
-                udp6            : false,
-                log             : log,
-                server          : false,
-                sockets         : [],
-                emit            : emit,
-                broadcast       : broadcast
-            }
-        );
-
+        
         eventParser=new EventParser(this.config);
+        
+        this.config = config;
+        this.path = path;
+        this.port = port;
+        this.log  = log;
+        
 
         this.on(
             'close',
@@ -74,7 +72,7 @@ function emit(socket, type, data){
 
     if(this.config.rawBuffer){
         this.log(this.config.encoding)
-        message=new Buffer(type,this.config.encoding);
+        message=Buffer.from(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -104,7 +102,7 @@ function broadcast(type,data){
     message.data=data;
 
     if(this.config.rawBuffer){
-        message=new Buffer(type,this.config.encoding);
+        message=Buffer.from(type,this.config.encoding);
     }else{
         message=eventParser.format(message);
     }
@@ -152,7 +150,7 @@ function serverClosed(){
 function gotData(socket,data,UDPSocket){
     let sock=((this.udp4 || this.udp6)? UDPSocket : socket);
     if(this.config.rawBuffer){
-        data=new Buffer(data,this.config.encoding);
+        data=Buffer.from(data,this.config.encoding);
         this.publish(
             'data',
             data,
@@ -240,7 +238,7 @@ function serverCreated(socket) {
             let data;
 
             if(this.config.rawSocket){
-                data=new Buffer(msg,this.config.encoding);
+                data=Buffer.from(msg,this.config.encoding);
             }else{
                 data=msg.toString();
             }
@@ -374,7 +372,7 @@ function startTLSServer(){
 }
 
 function UDPWrite(message,socket){
-    let data=new Buffer(message, this.config.encoding);
+    let data=Buffer.from(message, this.config.encoding);
     this.server.send(
         data,
         0,

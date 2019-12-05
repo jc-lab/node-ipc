@@ -1,6 +1,6 @@
 'use strict';
 
-const Client = require('../dao/client.js');
+const Client = require('../../../dao/client.js');
 
 function emptyCallback(){};
 
