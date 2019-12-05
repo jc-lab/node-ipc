@@ -67,7 +67,7 @@ describe(
                 ipc.config.id ='testClient';
                 ipc.config.retry = 60;
 
-                let clientPort=8010;
+                let clientPort=8100;
 
                 ipc.serveNet(
                     '::1',
