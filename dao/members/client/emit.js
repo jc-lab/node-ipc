@@ -21,13 +21,8 @@ function emit(type,data){
     }
 
     this.queue.add(
-        syncEmit.bind(this,message)
+        this.syncEmit.bind(this,message)
     );
-}
-
-function syncEmit(message){
-    this.log('dispatching event to ', this.id, this.path, ' : ', message);
-    this.socket.write(message);
 }
 
 module.exports=emit;

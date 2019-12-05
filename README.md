@@ -43,25 +43,32 @@ You may want to install jasmine and istanbul globally with ` sudo npm install -g
 ----
 #### Contents
 
-1. [Types of IPC Sockets and Supporting OS](#types-of-ipc-sockets)
-1. [IPC Config](#ipc-config)
-2. [IPC Methods](#ipc-methods)
-    1. [log](#log)
-    2. [connectTo](#connectto)
-    3. [connectToNet](#connecttonet)
-    4. [disconnect](#disconnect)
-    5. [serve](#serve)
-    6. [serveNet](#servenet)
-3. [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
-4. [IPC Events](#ipc-events)
-5. [Multiple IPC instances](#multiple-ipc-instances)
-6. [Basic Examples](#basic-examples)
-    1. [Server for Unix||Windows Sockets & TCP Sockets](#server-for-unix-sockets--tcp-sockets)
-    2. [Client for Unix||Windows Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
-    4. [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
-    5. [Raw Buffers, Real Time and / or Binary Sockets](#raw-buffer-or-binary-sockets)
-7. [Working with TLS/SSL Socket Servers & Clients](https://github.com/RIAEvangelist/node-ipc/tree/master/example/TLSSocket)
-8. [Node Code Examples](https://github.com/RIAEvangelist/node-ipc/tree/master/example)
+- [node-ipc](#node-ipc)
+      - [NPM Stats](#npm-stats)
+      - [Older versions of node](#older-versions-of-node)
+      - [Testing](#testing)
+      - [Contents](#contents)
+      - [Types of IPC Sockets](#types-of-ipc-sockets)
+      - [IPC Config](#ipc-config)
+      - [IPC Methods](#ipc-methods)
+        - [log](#log)
+        - [connectTo](#connectto)
+        - [connectToNet](#connecttonet)
+        - [disconnect](#disconnect)
+        - [serve](#serve)
+        - [serveNet](#servenet)
+    - [IPC Stores and Default Variables](#ipc-stores-and-default-variables)
+    - [IPC Server Methods](#ipc-server-methods)
+    - [IPC Events](#ipc-events)
+    - [Multiple IPC Instances](#multiple-ipc-instances)
+    - [Basic Examples](#basic-examples)
+      - [Server for Unix Sockets, Windows Sockets & TCP Sockets](#server-for-unix-sockets-windows-sockets--tcp-sockets)
+      - [Client for Unix Sockets & TCP Sockets](#client-for-unix-sockets--tcp-sockets)
+      - [Server & Client for UDP Sockets](#server--client-for-udp-sockets)
+        - [UDP Server 1 - "World"](#udp-server-1---%22world%22)
+        - [UDP Server 2 - "Hello"](#udp-server-2---%22hello%22)
+      - [Raw Buffer or Binary Sockets](#raw-buffer-or-binary-sockets)
+      - [Licensed under Apache 2.0 license](#licensed-under-apache-20-license)
 
 
 ----
@@ -108,7 +115,6 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
         retry           : 500,
         maxRetries      : false,
         stopRetrying    : false,
-        unlink          : true,
         interfaces      : {
             localAddress: false,
             localPort   : false,
@@ -139,7 +145,6 @@ Set these variables in the `ipc.config` scope to overwrite or set default values
 | retry    | this is the time in milliseconds a client will wait before trying to reconnect to a server if the connection is lost. This does not effect UDP sockets since they do not have a client server relationship like Unix Sockets and TCP Sockets. |
 | maxRetries    | if set, it represents the maximum number of retries after each disconnect before giving up and completely killing a specific connection |
 | stopRetrying| Defaults to false meaning clients will continue to retry to connect to servers indefinitely at the retry interval. If set to any number the client will stop retrying when that number is exceeded after each disconnect. If set to true in real time it will immediately stop trying to connect regardless of maxRetries. If set to 0, the client will ***NOT*** try to reconnect. |
-| unlink| Defaults to true meaning that the module will take care of deleting the IPC socket prior to startup.  If you use `node-ipc` in a clustered environment where there will be multiple listeners on the same socket, you must set this to `false` and then take care of deleting the socket in your own code. |
 | interfaces| primarily used when specifying which interface a client should connect through. see the [socket.connect documentation in the node.js api](https://nodejs.org/api/net.html#net_socket_connect_options_connectlistener) |
 
 ----
@@ -794,85 +799,5 @@ Writing explicit buffers, int types, doubles, floats etc. as well as big endian 
 
 ```
 
-#### Server with the `cluster` Module
-`node-ipc` can be used with Node.js' [cluster module](https://nodejs.org/api/cluster.html) to provide the ability to have multiple readers for a single socket.  Doing so simply requires you to set the `unlink` property in the config to `false` and take care of unlinking the socket path in the master process:
-
-##### Server
-
-```javascript
-
-    const fs = require('fs');
-    const ipc=require('../../../node-ipc');
-    const cpuCount = require('os').cpus().length;
-    const cluster = require('cluster');
-    const socketPath = '/tmp/ipc.sock';
-
-    ipc.config.unlink = false;
-
-    if (cluster.isMaster) {
-       if (fs.existsSync(socketPath)) {
-           fs.unlinkSync(socketPath);
-       }
-
-       for (let i = 0; i < cpuCount; i++) {
-           cluster.fork();
-       }
-    }else{
-       ipc.serve(
-         socketPath,
-         function() {
-           ipc.server.on(
-             'currentDate',
-             function(data,socket) {
-               console.log(`pid ${process.pid} got: `, data);
-             }
-           );
-         }
-      );
-
-      ipc.server.start();
-      console.log(`pid ${process.pid} listening on ${socketPath}`);
-    }
-
-```
-
-##### Client
-
-```javascript
-
-    const fs = require('fs');
-    const ipc = require('../../node-ipc');
-
-    const socketPath = '/tmp/ipc.sock';
-
-    //loop forever so you can see the pid of the cluster sever change in the logs
-    setInterval(
-      function() {
-        ipc.connectTo(
-          'world',
-          socketPath,
-          connecting
-         );
-      },
-      2000
-    );
-
-    function connecting(socket) {
-      ipc.of.world.on(
-        'connect',
-        function() {
-          ipc.of.world.emit(
-            'currentDate',
-            {
-                 message: new Date().toISOString()
-            }
-          );
-          ipc.disconnect('world');
-        }
-      );
-    }
-
-```
-
-#### Licensed under DBAD license
-See the [DBAD license](https://github.com/philsturgeon/dbad) in your language or our [licence.md](https://github.com/RIAEvangelist/node-phidget-API/blob/master/license.md) file.
+#### Licensed under Apache 2.0 license
+See the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0)

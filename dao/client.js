@@ -8,10 +8,8 @@ const EventParser = require('../entities/EventParser.js'),
 
 //members
 const emit = require('./members/client/emit.js'),
+    syncEmit = require('./members/client/syncEmit.js'), 
     connect = require('./members/client/connect.js');
-
-
-let eventParser = new EventParser();
 
 class Client extends Events{
     Client  = Client;
@@ -22,12 +20,14 @@ class Client extends Events{
     explicitlyDisconnected = false;
     retriesRemaining = 0
 
+    #syncEmit = syncEmit; 
+
     constructor(config,log){
         super();
 
         this.config=config;
         this.log=log;
-        eventParser=new EventParser(this.config);
+        this.eventParser=new EventParser(this.config);
         this.eventParser=eventParser;
 
         if(!config.maxRetries){

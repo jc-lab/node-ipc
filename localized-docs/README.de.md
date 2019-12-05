@@ -119,7 +119,6 @@ Legen Sie diese Variablen in der `ipc.config` zum Überschreiben oder Festlegen 
         retry           : 500,
         maxRetries      : false,
         stopRetrying    : false,
-        unlink          : true,
         interfaces      : {
             localAddress: false,
             localPort   : false,

@@ -9,7 +9,6 @@ class Defaults{
     encoding='utf8';
     rawBuffer=false;
     sync=false;
-    unlink=true;
 
     delimiter='\f';
 
