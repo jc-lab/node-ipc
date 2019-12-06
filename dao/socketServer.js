@@ -37,7 +37,9 @@ class Server extends Events{
     #gotData=gotData;
     #serverCreated=serverCreated;
     #socketClosed=socketClosed;
-    #startServer=startServer;
+    
+    #startServer=startServer.bind(this);
+    
     #startTLSServer=startTLSServer;
     #UDPWrite=UDPWrite;
 

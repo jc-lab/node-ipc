@@ -137,7 +137,7 @@ function connect(){
                 function retryTimeout(){
                     client.retriesRemaining--;
                     client.connect();
-                }.bind(null,client),
+                }.bind(this,client),
                 client.config.retry
             );
 
