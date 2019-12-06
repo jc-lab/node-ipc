@@ -20,7 +20,7 @@ ipc.serveNet(
             'message',
             function(data,socket){
                 ipc.log('got a message : ', data);
-                ipc.server.emit(
+                ipc.server.send(
                     socket,
                     'message',
                     data+' world!'

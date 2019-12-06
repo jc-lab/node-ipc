@@ -6,71 +6,71 @@ const net = require('net'),
 function startServer() {
     const ipcServer=this;
 
-    this.log(
-        'starting server on ',this.path,
-        ((this.port)?`:${this.port}`:'')
+    ipcServer.log(
+        'starting server on ',ipcServer.path,
+        ((ipcServer.port)?`:${ipcServer.port}`:'')
     );
 
-    if(!this.udp4 && !this.udp6){
-        this.log('starting TLS server',this.config.tls);
-        if(!this.config.tls){
-            this.socket=net.createServer();
+    if(!ipcServer.udp4 && !ipcServer.udp6){
+        ipcServer.log('starting TLS server',ipcServer.config.tls);
+        if(!ipcServer.config.tls){
+            ipcServer.socket=net.createServer();
         }else{
-            this.startTLSServer();
+            ipcServer.startTLSServer();
         }
     }else{
-        this.socket=dgram.createSocket(
-            ((this.udp4)? 'udp4':'udp6')
+        ipcServer.socket=dgram.createSocket(
+            ((ipcServer.udp4)? 'udp4':'udp6')
         );
-        this.socket.write=UDPWrite;
+        ipcServer.socket.write=UDPWrite;
     }
 
-    this.socket._ipc_server_=this;
+    ipcServer.socket._ipc_server_=ipcServer;
 
-    this.socket.on(
+    ipcServer.socket.on(
         'error',
-        this.serverError.bind(this)
+        ipcServer.serverError.bind(ipcServer)
     );
 
-    this.socket.on(
+    ipcServer.socket.on(
         'connection',
-        this.clientConnected.bind(this)
+        ipcServer.clientConnected.bind(ipcServer)
     );
 
-    this.socket.maxConnections=this.config.maxConnections;
+    ipcServer.socket.maxConnections=ipcServer.config.maxConnections;
 
-    if(!this.port){
-        this.log('starting server as', 'Unix || Windows Socket');
+    if(!ipcServer.port){
+        ipcServer.log('starting server as', 'Unix || Windows Socket');
         if (process.platform ==='win32'){
-            this.path = this.path.replace(/^\//, '');
-            this.path = this.path.replace(/\//g, '-');
-            this.path= `\\\\.\\pipe\\${this.path}`;
+            ipcServer.path = ipcServer.path.replace(/^\//, '');
+            ipcServer.path = ipcServer.path.replace(/\//g, '-');
+            ipcServer.path= `\\\\.\\pipe\\${ipcServer.path}`;
         }
 
-        this.socket.listen(
+        ipcServer.socket.listen(
             {
-                path:this.path
+                path:ipcServer.path
             },
-            this.onStart.bind(this)
+            ipcServer.onStart.bind(ipcServer)
         );
 
-        return this;
+        return;
     }
 
-    if(!this.udp4 && !this.udp6){
-        this.log('starting server as', (this.config.tls?'TLS':'TCP'));
-        this.socket.listen(
+    if(!ipcServer.udp4 && !ipcServer.udp6){
+        ipcServer.log('starting server as', (ipcServer.config.tls?'TLS':'TCP'));
+        ipcServer.socket.listen(
             {
-                port:this.port,
-                path:this.path
+                port:ipcServer.port,
+                path:ipcServer.path
             },
-            this.onStart.bind(this)
+            ipcServer.onStart.bind(ipcServer)
         );
 
-        return this;
+        return;
     }
 
-    this.log('starting server as',((this.udp4)? 'udp4':'udp6'));
+    ipcServer.log('starting server as',((ipcServer.udp4)? 'udp4':'udp6'));
 }
 
 module.exports = startServer;

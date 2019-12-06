@@ -2,9 +2,9 @@
 
 const Message = require('js-message');
 
-function send(type, data){
+function send(socket,type, data){
     const ipcServer=this;
-    
+
     ipcServer.log('dispatching event to socket : ', type, data);
 
     let message=new Message;
@@ -20,19 +20,19 @@ function send(type, data){
 
     if(ipcServer.udp4 || ipcServer.udp6){
 
-        if(!ipcServer.socket.address || !ipcServer.socket.port){
+        if(!socket.address || !socket.port){
             ipcServer.log('Attempting to emit to a single UDP socket without supplying socket address or port. Redispatching event as broadcast to all connected sockets');
             ipcServer.broadcast(type,data);
             return;
         }
 
-        return ipcServer.socket.write(
+        return socket.write(
             message,
             ipcServer.config.encoding
         );
     }
 
-    return ipcServer.socket.write(
+    return socket.write(
         message,ipcServer.config.encoding
     );
 }

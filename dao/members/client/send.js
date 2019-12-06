@@ -2,7 +2,7 @@
 
 const Message = require('js-message');
     
-function emit(type,data){
+function send(type,data){
     const client=this;
     
     client.log('dispatching event to ', client.id, client.path, ' : ', type, ',', data);
@@ -18,7 +18,7 @@ function emit(type,data){
     }
 
     if(!client.config.sync){
-        client.socket.write(message);
+        client.server.write(message);
         return;
     }
 
@@ -27,4 +27,4 @@ function emit(type,data){
     );
 }
 
-module.exports=emit;
+module.exports=send;
