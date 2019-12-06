@@ -1,7 +1,7 @@
 'use-strict';
 
 function socketClosed(socket){
-    this.publish(
+    this.emit(
         'close',
         socket
     );

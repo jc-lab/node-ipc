@@ -1,9 +1,8 @@
 'use-strict';
 
-function onStart(socket){
-    this.trigger(
-        'start',
-        socket
+function onStart(){
+    this.emit(
+        'start'
     );
 }
 

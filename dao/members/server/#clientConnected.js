@@ -15,38 +15,20 @@ function clientConnected(socket) {
 
     socket.on(
         'error',
-        function(err){
+        //should be moved out of this file
+        function(socket,err){
             this.log('server socket error',err);
 
-            this.publish('error',err);
-        }
+            this.emit('error',{err,socket});
+        }.bind(this,socket)
     );
 
     socket.on(
         'data',
-        this.gotData(socket)
+        this.gotData.bind(this,socket)
     );
 
-    socket.on(
-        'message',
-        function(msg,rinfo) {
-            if (!rinfo){
-                return;
-            }
-
-            this.log('Received UDP message from ', rinfo.address, rinfo.port);
-            let data;
-
-            if(this.config.rawSocket){
-                data=Buffer.from(msg,this.config.encoding);
-            }else{
-                data=msg.toString();
-            }
-            socket.emit('data',data,rinfo);
-        }
-    );
-
-    this.publish(
+    this.emit(
         'connect',
         socket
     );

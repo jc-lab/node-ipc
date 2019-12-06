@@ -3,10 +3,13 @@
 const Message = require('js-message');
 
 function gotData(socket,data,UDPSocket){
+
+    console.log(data,UDPSocket);
+
     let sock=((this.udp4 || this.udp6)? UDPSocket : socket);
     if(this.config.rawBuffer){
         data=Buffer.from(data,this.config.encoding);
-        this.publish(
+        this.emit(
             'data',
             data,
             sock
@@ -40,7 +43,7 @@ function gotData(socket,data,UDPSocket){
 
         this.log('received event of : ',message.type,message.data);
 
-        this.publish(
+        this.emit(
             message.type,
             message.data,
             sock

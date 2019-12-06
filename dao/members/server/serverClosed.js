@@ -24,7 +24,7 @@ function serverClosed(){
 
         this.sockets.splice(i,1);
 
-        this.publish('socket.disconnected', socket, destroyedSocketId);
+        this.emit('socket.disconnected', socket, destroyedSocketId);
 
         return;
     }

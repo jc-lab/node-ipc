@@ -30,8 +30,7 @@ function startTLSServer(){
         }
     }
     this.socket=tls.createServer(
-        this.config.tls,
-        this.clientConnected
+        this.config.tls
     );
 }
 

@@ -16,11 +16,11 @@ function broadcast(type,data){
 
     if(this.udp4 || this.udp6){
         for(let socket of this.sockets){
-            this.socket.write(message,socket);
+            this.socket.write(message,this.config.encoding);
         }
     }else{
         for(let socket of this.sockets){
-            socket.write(message);
+            socket.write(message,this.config.encoding);
         }
     }
 }

@@ -92,7 +92,7 @@ function connect(){
         'error',
         function(err){
             client.log('\n\n######\nerror: ', err);
-            client.publish('error', err);
+            client.emit('error', err);
 
         }
     );
@@ -100,7 +100,7 @@ function connect(){
     client.socket.on(
         'connect',
         function connectionMade(){
-            client.publish('connect');
+            client.emit('connect');
             client.retriesRemaining=client.config.maxRetries;
             client.log('retrying reset');
         }
@@ -119,7 +119,7 @@ function connect(){
                 client.explicitlyDisconnected
 
             ){
-                client.publish('disconnect');
+                client.emit('disconnect');
                 client.log(
                     (client.config.id),
                     'exceeded connection rety amount of',
@@ -127,7 +127,7 @@ function connect(){
                 );
 
                 client.socket.destroy();
-                client.publish('destroy');
+                client.emit('destroy');
                 client=undefined;
 
                 return;
@@ -141,7 +141,7 @@ function connect(){
                 client.config.retry
             );
 
-            client.publish('disconnect');
+            client.emit('disconnect');
         }
     );
 
@@ -150,7 +150,7 @@ function connect(){
         function(data) {
             client.log('## received events ##');
             if(client.config.rawBuffer){
-                client.publish(
+                client.emit(
                    'data',
                    new Buffer(data,client.config.encoding)
                 );
@@ -182,7 +182,7 @@ function connect(){
                 message.load(events[i]);
 
                 client.log('detected event', message.type, message.data);
-                client.publish(
+                client.emit(
                    message.type,
                    message.data
                 );

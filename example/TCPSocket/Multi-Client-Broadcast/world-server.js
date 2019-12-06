@@ -44,8 +44,3 @@ ipc.serveNet(
         );
     }
 );
-
-
-
-
-ipc.server.start();

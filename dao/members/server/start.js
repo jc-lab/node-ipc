@@ -10,7 +10,7 @@ function start(){
 
     fs.unlink(
         this.path,
-        this.startServer.bind(this)
+        this.startServer
     );
     
 }

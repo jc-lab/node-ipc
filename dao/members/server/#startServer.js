@@ -11,9 +11,7 @@ function startServer() {
     if(!this.udp4 && !this.udp6){
         this.log('starting TLS server',this.config.tls);
         if(!this.config.tls){
-            this.socket=net.createServer(
-                this.clientConnected
-            );
+            this.socket=net.createServer();
         }else{
             this.startTLSServer();
         }
@@ -22,22 +20,26 @@ function startServer() {
             ((this.udp4)? 'udp4':'udp6')
         );
         this.socket.write=UDPWrite;
-        this.socket.on(
-            'listening',
-            this.clientConnected
-        );
     }
+
+    this.socket._ipc_server_=this;
 
     this.socket.on(
         'error',
+        //should be moved out of this file
         function(err){
             this.log('server error',err);
 
-            this.publish(
+            this.emit(
                 'error',
                 err
             );
-        }
+        }.bind(this)
+    );
+
+    this.socket.on(
+        'connection',
+        this.clientConnected.bind(this)
     );
 
     this.socket.maxConnections=this.config.maxConnections;
@@ -54,7 +56,7 @@ function startServer() {
             {
                 path:this.path
             },
-            this.onStart
+            this.onStart.bind(this)
         );
 
         return this;
@@ -67,27 +69,13 @@ function startServer() {
                 port:this.port,
                 path:this.path
             },
-            this.onStart
-        );
-
-        this.onStart(
-            {
-                address : this.path,
-                port    : this.port
-            }
+            this.onStart.bind(this)
         );
 
         return this;
     }
 
     this.log('starting server as',((this.udp4)? 'udp4':'udp6'));
-
-    this.onStart(
-        {
-            address : this.path,
-            port    : this.port
-        }
-    );
 }
 
 module.exports = startServer;

@@ -6,11 +6,11 @@ const EventParser = require('../entities/EventParser.js'),
 
 //members
 const broadcast=require('./members/server/broadcast.js'),
-    emit=require('./members/server/emit.js'),
+    send=require('./members/server/send.js'),
     gotData=require('./members/server/#gotData.js'),
     onStart=require('./members/server/onStart.js'),
     serverClosed=require('./members/server/serverClosed.js'),
-    serverCreated=require('./members/server/#clientConnected.js'),
+    clientConnected=require('./members/server/#clientConnected.js'),
     socketClosed=require('./members/server/#socketClosed.js'),
     start=require('./members/server/start.js'),
     startServer=require('./members/server/#startServer.js'),
@@ -22,9 +22,8 @@ const broadcast=require('./members/server/broadcast.js'),
 class Server extends Events{
     udp4      = false;
     udp6      = false;
-    server    = false;
     sockets   = [];
-    emit      = emit;
+    send      = send;
     broadcast = broadcast;
     
     start=start;
@@ -35,7 +34,7 @@ class Server extends Events{
     //private fields
 
     #gotData=gotData;
-    #serverCreated=serverCreated;
+    #clientConnected=clientConnected;
     #socketClosed=socketClosed;
     
     #startServer=startServer.bind(this);
@@ -64,6 +63,10 @@ class Server extends Events{
     }
     get UDPWrite(){
         return this.#UDPWrite;
+    }
+
+    get clientConnected(){
+        return this.#clientConnected;
     }
 
     // end hack

@@ -11,10 +11,10 @@ function UDPWrite(message,socket){
         function(err, bytes) {
             if(err){
                 this.log('error writing data to socket',err);
-                this.publish(
+                this.emit(
                     'error',
                     function(err){
-                        this.publish('error',err);
+                        this.emit('error',err);
                     }
                 );
             }

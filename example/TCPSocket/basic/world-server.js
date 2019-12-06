@@ -30,7 +30,7 @@ ipc.serveNet(
         
         ipc.server.on(
             'socket.disconnected',
-            function(data,socket){
+            function(data){
                 console.log('DISCONNECTED\n\n',arguments);
             }
         );
