@@ -27,8 +27,7 @@ function startServer() {
 
     this.socket.on(
         'error',
-        //should be moved out of this file
-        this.clientError.bind(this)
+        this.serverError.bind(this)
     );
 
     this.socket.on(

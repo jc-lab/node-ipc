@@ -1,6 +1,6 @@
 'use-strict';
 
-function clientError(err,socket){
+function serverError(err,socket){
     this.log('server error',err);
 
     this.emit(
@@ -9,4 +9,4 @@ function clientError(err,socket){
     );
 }
 
-module.exports=clientError;
+module.exports=serverError;

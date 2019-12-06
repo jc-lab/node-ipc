@@ -11,13 +11,14 @@ const broadcast=require('./members/server/broadcast.js'),
     onStart=require('./members/server/onStart.js'),
     serverClosed=require('./members/server/serverClosed.js'),
     clientConnected=require('./members/server/#clientConnected.js'),
-    socketClosed=require('./members/server/#socketClosed.js'),
+    clientClosed=require('./members/server/#clientClosed.js'),
     start=require('./members/server/start.js'),
     startServer=require('./members/server/#startServer.js'),
     startTLSServer=require('./members/server/#startTLSServer.js'),
     stop=require('./members/server/stop.js'),
     UDPWrite=require('./members/server/#UDPWrite.js'),
-    clientError=require('./members/server/#clientError.js');
+    clientError=require('./members/server/#clientError.js'),
+    serverError=require('./members/server/#serverError.js');
 
 
 class Server extends Events{
@@ -36,9 +37,11 @@ class Server extends Events{
 
     #gotData=gotData;
     #clientConnected=clientConnected;
-    #clientError=clientError
-    #socketClosed=socketClosed;
-    
+    #clientClosed=clientClosed;
+
+    #clientError=clientError;
+    #serverError=serverError;
+
     #startServer=startServer.bind(this);
     
     #startTLSServer=startTLSServer;
@@ -54,8 +57,8 @@ class Server extends Events{
     get gotData(){
         return this.#gotData;
     }
-    get socketClosed(){
-        return this.#socketClosed;
+    get clientClosed(){
+        return this.#clientClosed;
     }
     get startServer(){
         return this.#startServer;
@@ -73,6 +76,10 @@ class Server extends Events{
 
     get clientError(){
         return this.#clientError;
+    }
+
+    get serverError(){
+        return this.#serverError;
     }
 
     // end hack

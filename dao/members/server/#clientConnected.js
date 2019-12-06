@@ -11,7 +11,7 @@ function clientConnected(socket) {
     
     socket.on(
         'close',
-        this.socketClosed.bind(this,socket)
+        this.clientClosed.bind(this,socket)
     );
 
     socket.on(
