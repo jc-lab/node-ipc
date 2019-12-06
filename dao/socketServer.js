@@ -16,7 +16,8 @@ const broadcast=require('./members/server/broadcast.js'),
     startServer=require('./members/server/#startServer.js'),
     startTLSServer=require('./members/server/#startTLSServer.js'),
     stop=require('./members/server/stop.js'),
-    UDPWrite=require('./members/server/#UDPWrite.js');
+    UDPWrite=require('./members/server/#UDPWrite.js'),
+    clientError=require('./members/server/#clientError.js');
 
 
 class Server extends Events{
@@ -35,6 +36,7 @@ class Server extends Events{
 
     #gotData=gotData;
     #clientConnected=clientConnected;
+    #clientError=clientError
     #socketClosed=socketClosed;
     
     #startServer=startServer.bind(this);
@@ -67,6 +69,10 @@ class Server extends Events{
 
     get clientConnected(){
         return this.#clientConnected;
+    }
+
+    get clientError(){
+        return this.#clientError;
     }
 
     // end hack

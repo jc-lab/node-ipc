@@ -8,9 +8,10 @@ function clientConnected(socket) {
     }
 
     this.log('## socket connection to server detected ##');
+    
     socket.on(
         'close',
-        this.socketClosed
+        this.socketClosed.bind(this,socket)
     );
 
     socket.on(

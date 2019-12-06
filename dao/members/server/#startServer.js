@@ -1,4 +1,5 @@
 'use-strict';
+
 const net = require('net'),
     dgram = require('dgram');
 
@@ -27,14 +28,7 @@ function startServer() {
     this.socket.on(
         'error',
         //should be moved out of this file
-        function(err){
-            this.log('server error',err);
-
-            this.emit(
-                'error',
-                err
-            );
-        }.bind(this)
+        this.clientError.bind(this)
     );
 
     this.socket.on(

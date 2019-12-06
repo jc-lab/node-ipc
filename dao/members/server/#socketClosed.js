@@ -3,7 +3,7 @@
 function socketClosed(socket){
     this.emit(
         'close',
-        socket
+        this
     );
 }
 
