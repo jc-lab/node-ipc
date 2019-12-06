@@ -20,7 +20,22 @@ class Client extends Events{
     explicitlyDisconnected = false;
     retriesRemaining = 0
 
+    //private fields
+
     #syncEmit = syncEmit; 
+
+    // begin hack
+    //
+    // Allow reading of private fields in externalized code, 
+    // not out of class code, like just moved out of the brackets for
+    // readability
+    // Filed Bug here : https://bugs.chromium.org/p/chromium/issues/detail?id=1031333 
+
+    get syncEmit(){
+        return this.#syncEmit;
+    }
+
+    // end hack
 
     constructor(config,log){
         super();
