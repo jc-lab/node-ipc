@@ -1,8 +1,10 @@
 'use-strict';
 
 function UDPWrite(message,socket){
-    let data=Buffer.from(message, this.config.encoding);
-    this.socket.send(
+    const ipcServer=this;
+    
+    let data=Buffer.from(message, ipcServer.config.encoding);
+    ipcServer.socket.send(
         data,
         0,
         data.length,
@@ -10,11 +12,11 @@ function UDPWrite(message,socket){
         socket.address,
         function(err, bytes) {
             if(err){
-                this.log('error writing data to socket',err);
-                this.emit(
+                ipcServer.log('error writing data to socket',err);
+                ipcServer.emit(
                     'error',
                     function(err){
-                        this.emit('error',err);
+                        ipcServer.emit('error',err);
                     }
                 );
             }

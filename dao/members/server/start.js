@@ -3,14 +3,16 @@
 const fs = require('fs');
 
 function start(){
-    if(!this.path){
-        this.log('Socket Server Path not specified, refusing to start');
+    const ipcServer=this;
+
+    if(!ipcServer.path){
+        ipcServer.log('Socket Server Path not specified, refusing to start');
         return;
     }
 
     fs.unlink(
-        this.path,
-        this.startServer
+        ipcServer.path,
+        ipcServer.startServer
     );
     
 }

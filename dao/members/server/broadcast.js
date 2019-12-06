@@ -3,24 +3,26 @@
 const Message = require('js-message');
 
 function broadcast(type,data){
-    this.log('broadcasting event to all known sockets listening to ', this.path,' : ', ((this.port)?this.port:''), type, data);
+    const ipcServer=this;
+
+    ipcServer.log('broadcasting event to all known sockets listening to ', ipcServer.path,' : ', ((ipcServer.port)?ipcServer.port:''), type, data);
     let message=new Message;
     message.type=type;
     message.data=data;
 
-    if(this.config.rawBuffer){
-        message=Buffer.from(type,this.config.encoding);
+    if(ipcServer.config.rawBuffer){
+        message=Buffer.from(type,ipcServer.config.encoding);
     }else{
-        message=this.eventParser.format(message);
+        message=ipcServer.eventParser.format(message);
     }
 
-    if(this.udp4 || this.udp6){
-        for(let socket of this.sockets){
-            this.socket.write(message,this.config.encoding);
+    if(ipcServer.udp4 || ipcServer.udp6){
+        for(let socket of ipcServer.sockets){
+            ipcServer.socket.write(message,ipcServer.config.encoding);
         }
     }else{
-        for(let socket of this.sockets){
-            socket.write(message,this.config.encoding);
+        for(let socket of ipcServer.sockets){
+            socket.write(message,ipcServer.config.encoding);
         }
     }
 }

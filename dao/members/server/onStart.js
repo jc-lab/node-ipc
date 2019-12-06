@@ -1,7 +1,9 @@
 'use-strict';
 
 function onStart(){
-    this.emit(
+    const ipcServer=this;
+    
+    ipcServer.emit(
         'start'
     );
 }

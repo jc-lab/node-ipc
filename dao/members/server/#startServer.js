@@ -4,6 +4,8 @@ const net = require('net'),
     dgram = require('dgram');
 
 function startServer() {
+    const ipcServer=this;
+
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')

@@ -1,7 +1,9 @@
 'use-strict';
 
 function stop(){
-    this.socket.close();
+    const ipcServer=this;
+    
+    ipcServer.socket.close();
 }
 
 module.export=stop;

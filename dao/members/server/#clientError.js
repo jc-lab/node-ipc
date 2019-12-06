@@ -1,9 +1,11 @@
 'use-strict';
 
 function clientError(err,socket){
-    this.log('server error',err);
+    const ipcServer=this;
 
-    this.emit(
+    ipcServer.log('client error',err,socket);
+
+    ipcServer.emit(
         'error',
         {err,socket}
     );

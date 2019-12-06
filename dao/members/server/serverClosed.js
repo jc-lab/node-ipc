@@ -1,8 +1,10 @@
 'use-strict';
 
 function serverClosed(){
+    const ipcServer=this;
+
     let i=-1;
-    for(let socket of this.sockets){
+    for(let socket of ipcServer.sockets){
         let destroyedSocketId=false;
         i++;
 
@@ -16,15 +18,15 @@ function serverClosed(){
             destroyedSocketId=socket.id;
         }
 
-        this.log('socket disconnected',destroyedSocketId.toString());
+        ipcServer.log('socket disconnected',destroyedSocketId.toString());
 
         if(socket && socket.destroy){
             socket.destroy();
         }
 
-        this.sockets.splice(i,1);
+        ipcServer.sockets.splice(i,1);
 
-        this.emit('socket.disconnected', socket, destroyedSocketId);
+        ipcServer.emit('socket.disconnected', socket, destroyedSocketId);
 
         return;
     }

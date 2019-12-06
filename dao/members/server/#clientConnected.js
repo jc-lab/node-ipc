@@ -1,35 +1,37 @@
 'use-strict';
 
 function clientConnected(socket) {
-    this.sockets.push(socket);
+    const ipcServer=this;
+
+    ipcServer.sockets.push(socket);
     
     if(socket.setEncoding){
-        socket.setEncoding(this.config.encoding);
+        socket.setEncoding(ipcServer.config.encoding);
     }
 
-    this.log('## socket connection to server detected ##');
+    ipcServer.log('## socket connection to server detected ##');
     
     socket.on(
         'close',
-        this.clientClosed.bind(this,socket)
+        ipcServer.clientClosed.bind(ipcServer,socket)
     );
 
     socket.on(
         'error',
-        //should be moved out of this file
+        //should be moved out of ipcServer file
         function(socket,err){
-            this.log('server socket error',err);
+            ipcServer.log('server socket error',err);
 
-            this.emit('error',{err,socket});
-        }.bind(this,socket)
+            ipcServer.emit('error',{err,socket});
+        }.bind(ipcServer,socket)
     );
 
     socket.on(
         'data',
-        this.gotData.bind(this,socket)
+        ipcServer.gotData.bind(ipcServer,socket)
     );
 
-    this.emit(
+    ipcServer.emit(
         'connect',
         socket
     );
