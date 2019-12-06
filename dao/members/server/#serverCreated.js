@@ -10,7 +10,7 @@ function serverCreated(socket) {
     this.log('## socket connection to server detected ##');
     socket.on(
         'close',
-        this.socketClosed.bind(this)
+        this.socketClosed
     );
 
     socket.on(
@@ -19,12 +19,12 @@ function serverCreated(socket) {
             this.log('server socket error',err);
 
             this.publish('error',err);
-        }.bind(this)
+        }
     );
 
     socket.on(
         'data',
-        this.gotData.bind(this,socket)
+        this.gotData(socket)
     );
 
     socket.on(
@@ -43,7 +43,7 @@ function serverCreated(socket) {
                 data=msg.toString();
             }
             socket.emit('data',data,rinfo);
-        }.bind(this)
+        }
     );
 
     this.publish(

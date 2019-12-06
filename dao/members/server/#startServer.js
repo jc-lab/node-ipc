@@ -3,6 +3,7 @@ const net = require('net'),
     dgram = require('dgram');
 
 function startServer() {
+    console.log(this);
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')
@@ -12,21 +13,21 @@ function startServer() {
         this.log('starting TLS server',this.config.tls);
         if(!this.config.tls){
             this.server=net.createServer(
-                this.serverCreated.bind(this)
+                this.serverCreated
             );
         }else{
-            this.startTLSServer.bind(this)();
+            this.startTLSServer();
         }
     }else{
         this.server=dgram.createSocket(
             ((this.udp4)? 'udp4':'udp6')
         );
-        this.server.write=UDPWrite.bind(this);
+        this.server.write=UDPWrite;
         this.server.on(
             'listening',
             function UDPServerStarted() {
-                serverCreated.bind(this)(this.server);
-            }.bind(this)
+                serverCreated(this.server);
+            }
         );
     }
 
@@ -39,7 +40,7 @@ function startServer() {
                 'error',
                 err
             );
-        }.bind(this)
+        }
     );
 
     this.server.maxConnections=this.config.maxConnections;
@@ -54,7 +55,7 @@ function startServer() {
 
         this.server.listen(
             this.path,
-            this.onStart.bind(this)
+            this.onStart
         );
 
         return;
@@ -65,17 +66,12 @@ function startServer() {
         this.server.listen(
             this.port,
             this.path,
-            this.onStart.bind(this)
+            this.onStart
         );
         return;
     }
 
     this.log('starting server as',((this.udp4)? 'udp4':'udp6'));
-
-    this.server.bind(
-        this.port,
-        this.path
-    );
 
     this.onStart(
         {

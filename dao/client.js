@@ -8,7 +8,7 @@ const EventParser = require('../entities/EventParser.js'),
 
 //members
 const emit = require('./members/client/emit.js'),
-    syncEmit = require('./members/client/syncEmit.js'), 
+    syncEmit = require('./members/client/#syncEmit.js'), 
     connect = require('./members/client/connect.js');
 
 class Client extends Events{
