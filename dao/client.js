@@ -43,7 +43,6 @@ class Client extends Events{
         this.config=config;
         this.log=log;
         this.eventParser=new EventParser(this.config);
-        this.eventParser=eventParser;
 
         if(!config.maxRetries){
            return;

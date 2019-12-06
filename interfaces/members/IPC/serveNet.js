@@ -79,6 +79,12 @@ function serveNet(host,port,UDPType,callback){
         'start',
         callback
     );
+
+    if(this.config.autoServe){
+        this.server.start();
+    }
+
+    return this;
 }
 
 module.exports = serveNet;

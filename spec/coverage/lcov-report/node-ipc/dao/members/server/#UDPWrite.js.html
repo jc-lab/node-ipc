@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Code coverage report for node-ipc\interfaces\members\IPC\log.js</title>
+    <title>Code coverage report for node-ipc\dao\members\server\#UDPWrite.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../../prettify.css" />
     <link rel="stylesheet" href="../../../../base.css" />
@@ -16,32 +16,32 @@
 <div class='wrapper'>
   <div class='pad1'>
     <h1>
-      <a href="../../../../index.html">all files</a> / <a href="index.html">node-ipc/interfaces/members/IPC/</a> log.js
+      <a href="../../../../index.html">all files</a> / <a href="index.html">node-ipc/dao/members/server/</a> #UDPWrite.js
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>9/10</span>
+        <span class='fraction'>3/9</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">75% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>3/4</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>1/1</span>
+        <span class='fraction'>0/3</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90% </span>
+        <span class="strong">33.33% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>9/10</span>
+        <span class='fraction'>3/9</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -67,67 +67,55 @@
 22
 23
 24
-25
-26
-27
-28
-29</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+25</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">77×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">77×</span>
-<span class="cline-any cline-yes">258×</span>
-<span class="cline-any cline-yes">235×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">23×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">77×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+<span class="cline-any cline-yes">1×</span></td><td class="text"><pre class="prettyprint lang-js">'use-strict';
 &nbsp;
-const util = require('util');
-&nbsp;
-function log(...args){
-    <span class="missing-if-branch" title="if path not taken" >I</span>if(this.config.silent){
-<span class="cstat-no" title="statement not covered" >        return;</span>
-    }
-&nbsp;
-    for(let i=0, count=args.length; i&lt;count; i++){
-        if(typeof args[i] != 'object'){
-            continue;
-        }
-&nbsp;
-        args[i]=util.inspect(
-            args[i],
-            {
-                depth:this.config.logDepth,
-                colors:this.config.logInColor
+<span class="fstat-no" title="function not covered" >function UDPWrite(message,socket){</span>
+<span class="cstat-no" title="statement not covered" >    let data=Buffer.from(message, this.config.encoding);</span>
+<span class="cstat-no" title="statement not covered" >    this.server.send(</span>
+        data,
+        0,
+        data.length,
+        socket.port,
+        socket.address,
+<span class="fstat-no" title="function not covered" >        function(err, bytes) {</span>
+<span class="cstat-no" title="statement not covered" >            if(err){</span>
+<span class="cstat-no" title="statement not covered" >                this.log('error writing data to socket',err);</span>
+<span class="cstat-no" title="statement not covered" >                this.publish(</span>
+                    'error',
+<span class="fstat-no" title="function not covered" >                    function(err){</span>
+<span class="cstat-no" title="statement not covered" >                        this.publish('error',err);</span>
+                    }
+                );
             }
-        );
-    }
-&nbsp;
-    this.config.logger(
-        args.join(' ')
+        }
     );
 }
 &nbsp;
-module.exports = log;</pre></td></tr>
+module.exports=UDPWrite;</pre></td></tr>
 </table></pre>
 <div class='push'></div><!-- for sticky footer -->
 </div><!-- /wrapper -->

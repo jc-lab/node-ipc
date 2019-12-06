@@ -5,16 +5,12 @@ const IPC = require('./interfaces/IPC.js');
 class IPCModule extends IPC{
     constructor(){
         super();
-        //include IPC to make extensible
-        Object.defineProperty(
-            this,
-            'IPC',
-            {
-                enumerable:true,
-                writable:false,
-                value:IPC
-            }
-        )
+    }
+
+    // refrence to IPC object 
+    // incase you want to extend it yourself 
+    static get IPC(){
+        return IPC;
     }
 }
 

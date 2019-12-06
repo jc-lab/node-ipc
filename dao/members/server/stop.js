@@ -1,7 +1,7 @@
 'use-strict';
 
 function stop(){
-    this.server.close();
+    this.socket.close();
 }
 
 module.export=stop;

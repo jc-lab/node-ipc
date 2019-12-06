@@ -72,8 +72,6 @@ function connectToNet(id,host,port,callback){
     this.of[id].path = host;
     this.of[id].port = port;
 
-    console.log(this.of[id]);
-
     this.of[id].connect();
 
 

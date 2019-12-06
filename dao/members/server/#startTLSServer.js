@@ -29,9 +29,9 @@ function startTLSServer(){
             );
         }
     }
-    this.server=tls.createServer(
+    this.socket=tls.createServer(
         this.config.tls,
-        this.serverCreated
+        this.clientConnected
     );
 }
 

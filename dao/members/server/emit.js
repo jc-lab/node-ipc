@@ -24,7 +24,7 @@ function emit(socket, type, data){
             return;
         }
 
-        this.server.write(
+        this.socket.write(
             message,
             socket
         );

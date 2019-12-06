@@ -2,7 +2,7 @@
 
 function UDPWrite(message,socket){
     let data=Buffer.from(message, this.config.encoding);
-    this.server.send(
+    this.socket.send(
         data,
         0,
         data.length,

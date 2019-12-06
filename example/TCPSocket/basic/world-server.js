@@ -12,7 +12,10 @@ ipc.config.retry= 1500;
 ipc.config.maxConnections=1;
 
 ipc.serveNet(
-    function(){
+    ()=>{
+
+        console.log('SERVER STARTED!');
+
         ipc.server.on(
             'message',
             function(data,socket){
@@ -24,21 +27,20 @@ ipc.serveNet(
                 );
             }
         );
-
+        
         ipc.server.on(
             'socket.disconnected',
             function(data,socket){
                 console.log('DISCONNECTED\n\n',arguments);
             }
         );
+        
+        ipc.server.on(
+            'error',
+            function(err){
+                ipc.log('Got an ERROR!',err);
+            }
+        );
     }
-);
 
-ipc.server.on(
-    'error',
-    function(err){
-        ipc.log('Got an ERROR!',err);
-    }
 );
-
-ipc.server.start();

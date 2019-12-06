@@ -1,8 +1,8 @@
 'use-strict';
 
-function serverCreated(socket) {
+function clientConnected(socket) {
     this.sockets.push(socket);
-
+    
     if(socket.setEncoding){
         socket.setEncoding(this.config.encoding);
     }
@@ -52,4 +52,4 @@ function serverCreated(socket) {
     );
 }
 
-module.exports=serverCreated;
+module.exports=clientConnected;

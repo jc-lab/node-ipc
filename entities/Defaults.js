@@ -6,6 +6,8 @@ class Defaults{
     socketRoot='/tmp/';
     id=os.hostname();
 
+    autoServe=true;
+
     encoding='utf8';
     rawBuffer=false;
     sync=false;

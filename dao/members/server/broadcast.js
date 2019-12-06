@@ -15,12 +15,12 @@ function broadcast(type,data){
     }
 
     if(this.udp4 || this.udp6){
-        for(let i=1, count=this.sockets.length; i<count; i++){
-            this.server.write(message,this.sockets[i]);
+        for(let socket of this.sockets){
+            this.socket.write(message,socket);
         }
     }else{
-        for(let i=0, count=this.sockets.length; i<count; i++){
-            this.sockets[i].write(message);
+        for(let socket of this.sockets){
+            socket.write(message);
         }
     }
 }

@@ -3,7 +3,6 @@ const net = require('net'),
     dgram = require('dgram');
 
 function startServer() {
-    console.trace(this);
     this.log(
         'starting server on ',this.path,
         ((this.port)?`:${this.port}`:'')
@@ -12,26 +11,24 @@ function startServer() {
     if(!this.udp4 && !this.udp6){
         this.log('starting TLS server',this.config.tls);
         if(!this.config.tls){
-            this.server=net.createServer(
-                this.serverCreated
+            this.socket=net.createServer(
+                this.clientConnected
             );
         }else{
             this.startTLSServer();
         }
     }else{
-        this.server=dgram.createSocket(
+        this.socket=dgram.createSocket(
             ((this.udp4)? 'udp4':'udp6')
         );
-        this.server.write=UDPWrite;
-        this.server.on(
+        this.socket.write=UDPWrite;
+        this.socket.on(
             'listening',
-            function UDPServerStarted() {
-                serverCreated(this.server);
-            }
+            this.clientConnected
         );
     }
 
-    this.server.on(
+    this.socket.on(
         'error',
         function(err){
             this.log('server error',err);
@@ -43,7 +40,7 @@ function startServer() {
         }
     );
 
-    this.server.maxConnections=this.config.maxConnections;
+    this.socket.maxConnections=this.config.maxConnections;
 
     if(!this.port){
         this.log('starting server as', 'Unix || Windows Socket');
@@ -53,22 +50,34 @@ function startServer() {
             this.path= `\\\\.\\pipe\\${this.path}`;
         }
 
-        this.server.listen(
-            this.path,
+        this.socket.listen(
+            {
+                path:this.path
+            },
             this.onStart
         );
 
-        return;
+        return this;
     }
 
     if(!this.udp4 && !this.udp6){
         this.log('starting server as', (this.config.tls?'TLS':'TCP'));
-        this.server.listen(
-            this.port,
-            this.path,
+        this.socket.listen(
+            {
+                port:this.port,
+                path:this.path
+            },
             this.onStart
         );
-        return;
+
+        this.onStart(
+            {
+                address : this.path,
+                port    : this.port
+            }
+        );
+
+        return this;
     }
 
     this.log('starting server as',((this.udp4)? 'udp4':'udp6'));

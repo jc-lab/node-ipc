@@ -7,4 +7,4 @@ function onStart(socket){
     );
 }
 
-module.export=onStart;
+module.exports=onStart;

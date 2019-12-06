@@ -1,9 +1,10 @@
 'use-strict';
 
 function serverClosed(){
-    for(let i=0, count=this.sockets.length; i<count; i++){
-        let socket=this.sockets[i];
+    let i=-1;
+    for(let socket of this.sockets){
         let destroyedSocketId=false;
+        i++;
 
         if(socket){
             if(socket.readable){

@@ -8,11 +8,9 @@ function start(){
         return;
     }
 
-    console.log(this);
-
     fs.unlink(
         this.path,
-        this.startServer
+        this.startServer.bind(this)
     );
     
 }
