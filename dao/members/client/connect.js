@@ -12,7 +12,7 @@ function connect(){
 
     client.log('requested connection to ', client.id, client.path);
    
-    if(!this.path){
+    if(!client.path){
         client.log('\n\n######\nerror: ', client.id ,' client has not specified socket path it wishes to connect to.');
         return;
     }
@@ -86,7 +86,7 @@ function connect(){
         }
     }
 
-    client.socket.setEncoding(this.config.encoding);
+    client.socket.setEncoding(client.config.encoding);
 
     client.socket.on(
         'error',
@@ -109,9 +109,10 @@ function connect(){
     client.socket.on(
         'close',
         function connectionClosed(){
-            client.log('connection closed' ,client.id , client.path,
-            client.retriesRemaining, 'tries remaining of', client.config.maxRetries
-        );
+            client.log(
+                'connection closed' ,client.id , client.path,
+                client.retriesRemaining, 'tries remaining of', client.config.maxRetries
+            );
 
             if(
                 client.config.stopRetrying ||
@@ -137,7 +138,7 @@ function connect(){
                 function retryTimeout(){
                     client.retriesRemaining--;
                     client.connect();
-                }.bind(this,client),
+                }.bind(client,client),
                 client.config.retry
             );
 
@@ -162,18 +163,18 @@ function connect(){
                 return;
             }
 
-            if(!this.ipcBuffer){
-                this.ipcBuffer='';
+            if(!client.ipcBuffer){
+                client.ipcBuffer='';
             }
 
-            data=(this.ipcBuffer+=data);
+            data=(client.ipcBuffer+=data);
 
             if(data.slice(-1)!=client.eventParser.delimiter || data.indexOf(client.eventParser.delimiter) == -1){
                 client.log('Messages are large, You may want to consider smaller messages.');
                 return;
             }
 
-            this.ipcBuffer='';
+            client.ipcBuffer='';
 
             const events = client.eventParser.parse(data);
             const eCount = events.length;

@@ -3,25 +3,27 @@
 const Message = require('js-message');
     
 function emit(type,data){
-    this.log('dispatching event to ', this.id, this.path, ' : ', type, ',', data);
+    const client=this;
+    
+    client.log('dispatching event to ', client.id, client.path, ' : ', type, ',', data);
 
     let message=new Message;
     message.type=type;
     message.data=data;
 
-    if(this.config.rawBuffer){
-        message=new Buffer(type,this.config.encoding);
+    if(client.config.rawBuffer){
+        message=new Buffer(type,client.config.encoding);
     }else{
-        message=this.eventParser.format(message);
+        message=client.eventParser.format(message);
     }
 
-    if(!this.config.sync){
-        this.socket.write(message);
+    if(!client.config.sync){
+        client.socket.write(message);
         return;
     }
 
-    this.queue.add(
-        this.syncEmit.bind(this,message)
+    client.queue.add(
+        client.syncEmit.bind(client,message)
     );
 }
 

@@ -1,8 +1,10 @@
 'use-strict';
 
 function syncEmit(message){
-    this.log('dispatching event to ', this.id, this.path, ' : ', message);
-    this.socket.write(message);
+    const client=this;
+    
+    client.log('dispatching event to ', client.id, client.path, ' : ', message);
+    client.socket.write(message);
 }
 
 module.exports=syncEmit;
