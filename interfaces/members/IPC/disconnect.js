@@ -1,20 +1,22 @@
 'use strict';
 
 function disconnect(id){
-    if(!this.of[id]){
+    const ipc=this;
+    
+    if(!ipc.of[id]){
         return;
     }
 
-    this.of[id].explicitlyDisconnected=true;
+    ipc.of[id].explicitlyDisconnected=true;
 
-    this.of[id].off('*','*');
-    if(this.of[id].socket){
-        if(this.of[id].socket.destroy){
-            this.of[id].socket.destroy();
+    ipc.of[id].off('*','*');
+    if(ipc.of[id].socket){
+        if(ipc.of[id].socket.destroy){
+            ipc.of[id].socket.destroy();
         }
     }
 
-    delete this.of[id];
+    delete ipc.of[id];
 }
 
 module.exports = disconnect;

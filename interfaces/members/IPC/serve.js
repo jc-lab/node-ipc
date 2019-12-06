@@ -3,30 +3,32 @@
 const Server = require('../../../dao/socketServer.js');
 
 function serve(path,callback){
+    const ipc=this;
+    
     if(typeof path=='function'){
         callback=path;
         path=false;
     }
     if(!path){
-        this.log(
+        ipc.log(
             'Server path not specified, so defaulting to',
             'ipc.config.socketRoot + ipc.config.appspace + ipc.config.id',
-            this.config.socketRoot+this.config.appspace+this.config.id
+            ipc.config.socketRoot+ipc.config.appspace+ipc.config.id
         );
-        path=this.config.socketRoot+this.config.appspace+this.config.id;
+        path=ipc.config.socketRoot+ipc.config.appspace+ipc.config.id;
     }
 
     if(!callback){
         callback=emptyCallback;
     }
 
-    this.server=new Server(
+    ipc.server=new Server(
         path,
-        this.config,
-        this.log
+        ipc.config,
+        ipc.log
     );
 
-    this.server.on(
+    ipc.server.on(
         'start',
         callback
     );

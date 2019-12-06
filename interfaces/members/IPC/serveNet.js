@@ -5,6 +5,8 @@ const Server = require('../../../dao/socketServer.js');
 function emptyCallback(){};
 
 function serveNet(host,port,UDPType,callback){
+    const ipc=this;
+    
     if(typeof host=='number'){
         callback=UDPType;
         UDPType=port;
@@ -18,18 +20,18 @@ function serveNet(host,port,UDPType,callback){
         port=false;
     }
     if(!host){
-        this.log(
+        ipc.log(
             'Server host not specified, so defaulting to',
             'ipc.config.networkHost',
-            this.config.networkHost
+            ipc.config.networkHost
         );
-        host=this.config.networkHost;
+        host=ipc.config.networkHost;
     }
     if(host.toLowerCase()=='udp4' || host.toLowerCase()=='udp6'){
         callback=port;
         UDPType=host.toLowerCase();
         port=false;
-        host=this.config.networkHost;
+        host=ipc.config.networkHost;
     }
 
     if(typeof port=='string'){
@@ -43,12 +45,12 @@ function serveNet(host,port,UDPType,callback){
         port=false;
     }
     if(!port){
-        this.log(
+        ipc.log(
             'Server port not specified, so defaulting to',
             'ipc.config.networkPort',
-            this.config.networkPort
+            ipc.config.networkPort
         );
-        port=this.config.networkPort;
+        port=ipc.config.networkPort;
     }
 
     if(typeof UDPType=='function'){
@@ -60,31 +62,31 @@ function serveNet(host,port,UDPType,callback){
         callback=emptyCallback;
     }
 
-    this.server=new Server(
+    ipc.server=new Server(
         host,
-        this.config,
-        this.log,
+        ipc.config,
+        ipc.log,
         port
     );
 
     if(UDPType){
-        this.server[UDPType]=true;
+        ipc.server[UDPType]=true;
         if(UDPType === "udp4" && host === "::1") {
             // bind udp4 socket to an ipv4 address
-            this.server.path = "127.0.0.1";
+            ipc.server.path = "127.0.0.1";
         }
     }
 
-    this.server.on(
+    ipc.server.on(
         'start',
         callback
     );
 
-    if(this.config.autoServe){
-        this.server.start();
+    if(ipc.config.autoServe){
+        ipc.server.start();
     }
 
-    return this;
+    return ipc;
 }
 
 module.exports = serveNet;

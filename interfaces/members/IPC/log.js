@@ -3,7 +3,9 @@
 const util = require('util');
 
 function log(...args){
-    if(this.config.silent){
+    const ipc=this;
+    
+    if(ipc.config.silent){
         return;
     }
 
@@ -15,13 +17,13 @@ function log(...args){
         args[i]=util.inspect(
             args[i],
             {
-                depth:this.config.logDepth,
-                colors:this.config.logInColor
+                depth:ipc.config.logDepth,
+                colors:ipc.config.logInColor
             }
         );
     }
 
-    this.config.logger(
+    ipc.config.logger(
         args.join(' ')
     );
 }

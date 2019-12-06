@@ -5,6 +5,8 @@ const Client = require('../../../dao/client.js');
 function emptyCallback(){};
 
 function connectTo(id,path,callback){
+    const ipc=this;
+
     if(typeof path == 'function'){
         callback=path;
         path=false;
@@ -15,7 +17,7 @@ function connectTo(id,path,callback){
     }
 
     if(!id){
-        this.log(
+        ipc.log(
             'Service id required',
             'Requested service connection without specifying service id. Aborting connection attempt'
         );
@@ -23,17 +25,17 @@ function connectTo(id,path,callback){
     }
 
     if(!path){
-        this.log(
+        ipc.log(
             'Service path not specified, so defaulting to',
             'ipc.config.socketRoot + ipc.config.appspace + id',
-            (this.config.socketRoot+this.config.appspace+id).data
+            (ipc.config.socketRoot+ipc.config.appspace+id).data
         );
-        path=this.config.socketRoot+this.config.appspace+id;
+        path=ipc.config.socketRoot+ipc.config.appspace+id;
     }
 
-    if(this.of[id]){
-        if(!this.of[id].socket.destroyed){
-            this.log(
+    if(ipc.of[id]){
+        if(!ipc.of[id].socket.destroyed){
+            ipc.log(
                 'Already Connected to',
                 id,
                 '- So executing success without connection'
@@ -41,16 +43,16 @@ function connectTo(id,path,callback){
             callback();
             return;
         }
-        this.of[id].socket.destroy();
+        ipc.of[id].socket.destroy();
     }
 
-    this.of[id] = new Client(this.config,this.log);
-    this.of[id].id = id;
-    this.of[id].path = path;
+    ipc.of[id] = new Client(ipc.config,ipc.log);
+    ipc.of[id].id = id;
+    ipc.of[id].path = path;
 
-    this.of[id].connect();
+    ipc.of[id].connect();
 
-    callback(this);
+    callback(ipc);
 }
 
 module.exports = connectTo;

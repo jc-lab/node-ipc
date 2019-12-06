@@ -6,8 +6,10 @@ const Client = require('../../../dao/client.js'),
 function emptyCallback(){};
 
 function connectToNet(id,host,port,callback){
+    const ipc=this;
+    
     if(!id){
-        this.log(
+        ipc.log(
             'Service id required',
             'Requested service connection without specifying service id. Aborting connection attempt'
         );
@@ -24,12 +26,12 @@ function connectToNet(id,host,port,callback){
         port=false;
     }
     if(!host){
-        this.log(
+        ipc.log(
             'Server host not specified, so defaulting to',
             'ipc.config.networkHost',
-            this.config.networkHost
+            ipc.config.networkHost
         );
-        host=this.config.networkHost;
+        host=ipc.config.networkHost;
     }
 
     if(typeof port=='function'){
@@ -37,12 +39,12 @@ function connectToNet(id,host,port,callback){
         port=false;
     }
     if(!port){
-        this.log(
+        ipc.log(
             'Server port not specified, so defaulting to',
             'ipc.config.networkPort',
-            this.config.networkPort
+            ipc.config.networkPort
         );
-        port=this.config.networkPort;
+        port=ipc.config.networkPort;
     }
 
     if(typeof callback == 'string'){
@@ -53,10 +55,10 @@ function connectToNet(id,host,port,callback){
         callback=emptyCallback;
     }
 
-    if(this.of[id]){
-        if(!this.of[id].socket.destroyed){
+    if(ipc.of[id]){
+        if(!ipc.of[id].socket.destroyed){
 
-            this.log(
+            ipc.log(
                 'Already Connected to',
                 id,
                 '- So executing success without connection'
@@ -64,19 +66,19 @@ function connectToNet(id,host,port,callback){
             callback();
             return;
         }
-        this.of[id].socket.destroy();
+        ipc.of[id].socket.destroy();
     }
 
-    this.of[id] = new Client(this.config,this.log);
-    this.of[id].id = id;
-    this.of[id].path = host;
-    this.of[id].port = port;
+    ipc.of[id] = new Client(ipc.config,ipc.log);
+    ipc.of[id].id = id;
+    ipc.of[id].path = host;
+    ipc.of[id].port = port;
 
-    this.of[id].connect();
+    ipc.of[id].connect();
 
 
 
-    callback(this);
+    callback(ipc);
 }
 
 module.exports = connectToNet;
