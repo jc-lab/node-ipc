@@ -32,10 +32,17 @@ function startServer() {
         ipcServer.serverError.bind(ipcServer)
     );
 
-    ipcServer.socket.on(
-        'connection',
-        ipcServer.clientConnected.bind(ipcServer)
-    );
+    if(ipcServer.config.tls) {
+        ipcServer.socket.on(
+            'secureConnection',
+            ipcServer.clientConnected.bind(ipcServer)
+        );
+    } else {
+        ipcServer.socket.on(
+            'connection',
+            ipcServer.clientConnected.bind(ipcServer)
+        );
+    }
 
     ipcServer.socket.maxConnections=ipcServer.config.maxConnections;
 
