@@ -1,6 +1,6 @@
 {
-  "name": "node-ipc",
-  "version": "10.0.0-rc.1",
+  "name": "node-ipc-preview",
+  "version": "10.0.0-rc.2",
   "description": "A nodejs module for local and remote Inter Process Communication (IPC), Neural Networking, and able to facilitate machine learning.",
   "main": "node-ipc.js",
   "types": "types/index.d.ts",
@@ -57,7 +57,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/RIAEvangelist/node-ipc.git"
+    "url": "https://github.com/jc-lab/node-ipc.git"
   },
   "bugs": {
     "url": "https://github.com/RIAEvangelist/node-ipc/issues"
