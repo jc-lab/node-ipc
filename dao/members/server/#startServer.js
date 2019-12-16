@@ -12,7 +12,6 @@ function startServer() {
     );
 
     if(!ipcServer.udp4 && !ipcServer.udp6){
-        ipcServer.log('starting TLS server',ipcServer.config.tls);
         if(!ipcServer.config.tls){
             ipcServer.socket=net.createServer();
         }else{
