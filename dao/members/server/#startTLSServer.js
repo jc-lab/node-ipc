@@ -13,6 +13,9 @@ function startTLSServer(){
     if(temp_tls.cert) {
         temp_tls.cert = '...';
     }
+    if((typeof temp_tls.dhparam != 'string') || ((typeof temp_tls.dhparam === 'string') && !temp_tls.dhparam.startsWith("-----BEGIN DH PARAMETERS-----"))) {
+        temp_tls.dhparam = '#SECURE#';
+    }
 
     ipcServer.log('starting TLS server',temp_tls);
     if(!ipcServer.config.tls.key) {
