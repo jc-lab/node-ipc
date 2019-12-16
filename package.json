@@ -16,6 +16,7 @@
     "js-queue": "*"
   },
   "devDependencies": {
+    "@types/node": "^12.12.17",
     "codacy-coverage": "*",
     "jasmine": "3.5.0",
     "istanbul": "0.4.5",
